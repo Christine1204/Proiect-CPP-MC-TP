@@ -31,8 +31,3 @@ std::string Candidat::retragere_aplicatie(std::string titlu_job) {
 
     return "Application not found.";
 }
-
-
-std::vector<Candidat*> Candidat::initializare_candidati() {
-    return {}; // TODO
-}

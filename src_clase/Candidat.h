@@ -26,9 +26,6 @@ public:
     // Returns empty string ("") if the operation was successful, otherwise returns an error message
     std::string adauga_aplicatie(const std::shared_ptr<Aplicatie>& aplicatie);
     std::string retragere_aplicatie(std::string titlu_job);
-
-    // Reads from aplicatii.txt and initializes a list of candidates with their respective applications
-    static std::vector<Candidat*> initializare_candidati();
 };
 
 #endif //PROIECT_C_CANDIDAT_H
