@@ -4,9 +4,9 @@ using namespace std;
 
 
 // classes include
-#include "Aplicatie.h"
-#include "Job.h"
-#include "Candidat.h"
+#include "../src_clase/Job.h"
+#include "../src_clase/Candidat.h"
+#include "../src_clase/Aplicatie.h" //pentru orice eventualitate
 
 
 
