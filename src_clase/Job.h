@@ -6,8 +6,7 @@
 #include <memory>
 #include <vector>
 #include <string>
-
-
+#include <iostream>
 
 #include "Aplicatie.h"
 
@@ -32,7 +31,11 @@ public:
 
     void link_aplicatie(const std::shared_ptr<Aplicatie> app_existenta) {
         aplicatii.push_back(app_existenta);
-    }
+    } //aici link-uiesc pe joc cu aplicatia, adica adaug un pointer weak la vectorul de aplicatii
+    //shared-pointer-ul va fi creat in main si e automat convertit in weak pointer cand e adaugat in vectorul de aplicatii, deci nu trebuie sa ma ocup de asta
+
+/////////////////////////////////////////////////////////////////////////////////
+//GETTERE
 
     std::string get_titlu_job()
     {
@@ -46,11 +49,23 @@ public:
     {
         return skill_uri;
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+
     std::vector<std::weak_ptr<Aplicatie>> get_aplicatie()
     {
         return aplicatii;
-    } //get-erre
+    } //get-err mai speecial pentru ca returneaza un vector de pointeri weak, dar e necesar pentru a putea accesa aplicatiile legate de job
+
+        //overload la operator de printare
+        friend std::ostream &operator<<(std::ostream &out, const Job &j);
+
 };
+
+
+
+
+
 
 
 

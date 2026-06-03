@@ -4,18 +4,19 @@ using namespace std;
 
 
 // classes include
-#include "../src_clase/Job.h"
-#include "../src_clase/Candidat.h"
-#include "../src_clase/Aplicatie.h" //pentru orice eventualitate
+#include "Job.h"
+#include "Candidat.h"
+#include "Aplicatie.h" //pentru orice eventualitate
 
+/*  comanda test 
+ ./main_manager/build/manager arg1 arg2 "this is arg 3"
+*/
 
 
 int main(int argc, char* argv[]) {
     cout << "You have entered " << argc
          << " arguments:" << endl;
 
-    // Using a while loop to
-    // iterate through arguments
     int i = 0;
     while (i < argc) {
         cout << "Argument " << i + 1
@@ -23,6 +24,10 @@ int main(int argc, char* argv[]) {
              << endl;
         i++;
     }
+
+    
+
+
 
     return 0;
 }
