@@ -5,7 +5,7 @@
 //nu e chiar o interfata pentru ca va contine vectorul de joburi,dar mi se pare intuitiv numele
 
 #include "Job.h"
-
+#include "Aplicatie.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -14,6 +14,7 @@
 class Manager_interface {
     
     std::vector<Job> joburi; //vectorul de joburi pe care managerul il va gestiona
+    std::vector<Aplicatie> aplicatii; //vectorul de aplicatii, desigur intrun program real nu  las crea aici, pentru ca ar fi creat de cealalta aplicatie, dar pentru simplitate o sa las aici, si o sa fie creat in main, iar apoi adaugat in vectorul de aplicatii al managerului
     std::fstream jobs_file; //fisierul in care se vor stoca joburile, pentru a putea fi incarcate la pornirea aplicatiei
     std::fstream aplicatii_file; //fisierul in care se vor stoca aplicatiile
     public:
@@ -21,43 +22,23 @@ class Manager_interface {
     //constructor si destructor pentru a gestiona fisierul de joburi
     
     
-    Manager_interface(){
-        jobs_file.open("joburi.txt", std::ios::in | std::ios::out); //mod citire,scriere
-        aplicatii_file.open("aplicatii.txt", std::ios::in | std::ios::out); //mod citire,scriere
+    Manager_interface();
+    ~Manager_interface();
 
-        if (!jobs_file.is_open()) {
-            std::cerr << "Eroare: nu s-a putut deschide joburi.txt, asigura-te ca fisierul exista\n";
-        }
-        if (!aplicatii_file.is_open()) {
-            std::cerr << "Eroare: nu s-a putut deschide aplicatii.txt, asigura-te ca fisierul exista\n";
-        }
-    } //aici deschidem fisierul de joburi, si fisierul de aplicatii, pentru a putea incarca joburile si aplicatiile
-    //daca nu exista,da eroare
-    
-    
-    ~Manager_interface(){
-        if(jobs_file.is_open()){ //check pentru a vedea daca e deschis sau nu
-            jobs_file.close(); //inchidem fisierul la final, pentru a salva modificarile
-        }
-        if(aplicatii_file.is_open()){
-            aplicatii_file.close();
-        }
-    }
-
-    
+    void incarca_joburi(); //functie care se va ocupa de incarcarea joburilor din fisier la !!!!STARTUP!!!!
     void salveaza(); //functie care se va ocupa de salvarea joburilor in fisier, va fi apelata la finalul fiecarei comenzi care modifica joburile, pentru a salva modificarile
 
 
 
 
     //functiile cu _comanda la urma sunt functii care for vi apelate din main,depinzand pe inputul utilizatorului,
-    //se vor ocupa si de sanitizarea input-ului in caz de input gresit sau lipsa
+    //NU SE VOR OCUPA DE SANITIZAREA INPUTULUI, CI DOAR DE LOGICA APLICATIEI, restul se face in main
 
     void vizualizare_joburi_comanda();
-    void adaugare_job_comanda();
-    void modificare_job_comanda();
-    void adauga_skill_comanda();
-    void sterge_skill_comanda();
-    void sterge_job_comanda();
-    void vizualizare_candidati_comanda();
+    void adaugare_job_comanda(std::string titlu_job, std::string companie, std::vector<std::string> skill_uri);
+    void modificare_job_comanda(std::string titlu_job, std::string camp, std::string valoare);
+    void adauga_skill_comanda(std::string titlu_job, std::string skill_nou);
+    void sterge_skill_comanda(std::string titlu_job, std::string skill_de_sters);
+    void sterge_job_comanda(std::string titlu_job);
+    void vizualizare_candidati_comanda(std::string titlu_job); //toate comenzile si parametrii respectivi
 };

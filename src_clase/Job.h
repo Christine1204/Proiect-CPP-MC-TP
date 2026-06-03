@@ -29,7 +29,7 @@ public:
     // partea cu aplicatii va veni de la shared pointer, la moment ramane goala
     ~Job() = default;
 
-    void link_aplicatie(const std::shared_ptr<Aplicatie> app_existenta) {
+    void link_aplicatie(const std::shared_ptr<Aplicatie>& app_existenta) {
         aplicatii.push_back(app_existenta);
     } //aici link-uiesc pe joc cu aplicatia, adica adaug un pointer weak la vectorul de aplicatii
     //shared-pointer-ul va fi creat in main si e automat convertit in weak pointer cand e adaugat in vectorul de aplicatii, deci nu trebuie sa ma ocup de asta
@@ -52,7 +52,7 @@ public:
 
     ///////////////////////////////////////////////////////////////////////////
 
-    std::vector<std::weak_ptr<Aplicatie>> get_aplicatie()
+    std::vector<std::weak_ptr<Aplicatie>> get_aplicatii()
     {
         return aplicatii;
     } //get-err mai speecial pentru ca returneaza un vector de pointeri weak, dar e necesar pentru a putea accesa aplicatiile legate de job
