@@ -60,7 +60,9 @@ public:
         //overload la operator de printare
         friend std::ostream &operator<<(std::ostream &out, const Job &j);
         
-
+    void set_titlu_job(const std::string& t) { titlu_job = t; }
+    void set_companie(const std::string& c) { companie = c; }
+    void set_skill_uri(const std::vector<std::string>& s) { skill_uri = s; } //set-erre pentru a putea modifica obiectul
 };
 
 

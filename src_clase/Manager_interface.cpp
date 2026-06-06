@@ -58,12 +58,37 @@ void Manager_interface::salveaza(){
     } 
 }
 
+void Manager_interface::modificare_job_comanda(std::string titlu_job, std::string camp, std::string valoare){
+    for (auto& job : joburi){ //mergem prin fiecare job din vectorul de joburi a managerului
+        if (job.get_titlu_job() == titlu_job){ //daca gasim jobul cu titlul respectiv, atunci modificam campul respectiv cu valoarea noua
+            if (camp == "companie"){
+                job.set_companie(valoare); // Surgical change
+                salveaza(); 
+                std::cout << "Campul companie a fost modificat!\n";
+                return;
+            }
+            else if (camp == "titlu_job"){
+                job.set_titlu_job(valoare); // Surgical change
+                salveaza(); 
+                std::cout << "Campul titlu_job a fost modificat!\n";
+                return;
+            }
+            else {
+                std::cerr << "Campul " << camp << " nu este valid pentru modificare,\n";
+                std::cerr << "Campurile valide sunt: companie, titlu_job,\nDaca doriti sa modificati skillurile, folositi comenzile adauga_skill_comanda sau sterge_skill_comanda\n";
+                return; //daca campul nu e valid, iesim din functie, afisand un mesaj de eroare
+            }
+        }
+    }
+}
 
 void Manager_interface::vizualizare_joburi_comanda(){
     for (const auto& job : joburi){
         std::cout << job; //folosim overload-ul de operator de printare pentru a afisa joburile intr-un format frumos
     }
 }
+
+
 void Manager_interface::adaugare_job_comanda(std::string titlu_job, std::string companie, std::vector<std::string> skill_uri){
     Job job(titlu_job,companie,skill_uri);
     joburi.push_back(job); //adaugam jobul nou creat in vectorul de joburi al managerului
@@ -77,7 +102,7 @@ void Manager_interface::sterge_job_comanda(std::string titlu_job){
             joburi.erase(it);
             std::cout << "Jobul cu titlul " << titlu_job << " a fost sters cu succes.\n";
             salveaza(); //salvam modificarile in fisier, pentru a pastra persist
-            break;
+            return; //dupa ce am sters jobul, iesim din functie
         }
 
     }
@@ -116,3 +141,4 @@ void Manager_interface::sterge_job_comanda(std::string titlu_job){
     
     }
 }
+
