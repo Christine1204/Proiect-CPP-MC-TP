@@ -37,28 +37,29 @@ public:
 /////////////////////////////////////////////////////////////////////////////////
 //GETTERE
 
-    std::string get_titlu_job()
+    std::string get_titlu_job() const
     {
         return titlu_job;
     }
-    std::string get_companie()
+    std::string get_companie() const
     {
         return companie;
     }
-    std::vector<std::string> get_skill_uri()
+    std::vector<std::string>get_skill_uri() const
     {
         return skill_uri;
     }
 
     ///////////////////////////////////////////////////////////////////////////
 
-    std::vector<std::weak_ptr<Aplicatie>> get_aplicatii()
+    std::vector<std::weak_ptr<Aplicatie>> const get_aplicatii()
     {
         return aplicatii;
     } //get-err mai speecial pentru ca returneaza un vector de pointeri weak, dar e necesar pentru a putea accesa aplicatiile legate de job
 
         //overload la operator de printare
         friend std::ostream &operator<<(std::ostream &out, const Job &j);
+        
 
 };
 
