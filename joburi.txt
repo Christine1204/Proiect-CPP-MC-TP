@@ -2,4 +2,3 @@ Prompt Engineer | Anthropic | Vrajeala, prompting, plansul in fata lui Claude, l
 Casier | Profi | Rabdare, munca sub stress, sanatate mentala
 Presedinte | Statul Roman | Negociere, lipsa de implicare, rezistenta la zbor cu avionul, matematica
 Jucator de LOL | Riot Games | Hidrofobie, gandire tactica, expertiza in strategie
- 
