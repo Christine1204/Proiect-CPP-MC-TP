@@ -83,6 +83,10 @@ void Manager_interface::modificare_job_comanda(std::string titlu_job, std::strin
 }
 
 void Manager_interface::vizualizare_joburi_comanda(){
+    if (joburi.empty()){
+        std::cout << "Nu exista joburi disponibile.E saracie in Romania :(\n";
+        return; //daca nu exista joburi, iesim din functie, afisand un mesaj informativ
+    }
     for (const auto& job : joburi){
         std::cout << job; //folosim overload-ul de operator de printare pentru a afisa joburile intr-un format frumos
     }
@@ -93,6 +97,8 @@ void Manager_interface::adaugare_job_comanda(std::string titlu_job, std::string 
     Job job(titlu_job,companie,skill_uri);
     joburi.push_back(job); //adaugam jobul nou creat in vectorul de joburi al managerului
     salveaza(); //salvam modificarile in fisier, pentru a pastra persistenta datelor
+
+    std::cout << "Jobul a fost adaugat cu succes!\n";
 } 
 
 void Manager_interface::sterge_job_comanda(std::string titlu_job){
@@ -107,7 +113,7 @@ void Manager_interface::sterge_job_comanda(std::string titlu_job){
 
     }
                 std::cerr << "Jobul cu titlul " << titlu_job << " nu a fost gasit.\n";
-                return; //daca am terminat de iterat prin tot vectorul si nu am gasit jobul, inseamna ca nu exista, deci afisam un mesaj de eroare
+ //daca am terminat de iterat prin tot vectorul si nu am gasit jobul, inseamna ca nu exista, deci afisam un mesaj de eroare
 } // the opps are trying to convert me to oop programming
 
 
@@ -142,3 +148,41 @@ void Manager_interface::sterge_job_comanda(std::string titlu_job){
     }
 }
 
+
+void Manager_interface::adauga_skill_comanda(std::string titlu_job, std::string skill_nou){
+    for (auto& job : joburi){
+        if (job.get_titlu_job() == titlu_job){
+            std::vector<std::string> skill_uri = job.get_skill_uri();
+            skill_uri.push_back(skill_nou); //adaugam skill-ul nou la vectorul de skill-uri al jobului
+            job.set_skill_uri(skill_uri); // folosin set-errul pentru a actualiza skill-urile obiectului de job direct
+            salveaza(); 
+            std::cout << "Skill-ul a fost adaugat cu succes!\n";
+            return;
+        }
+    }
+    std::cerr << "Jobul cu titlul " << titlu_job << " nu a fost gasit.\n";
+}
+
+//observ ca folosesc destul de mult cautarea unui job in vector,intro lume ideala as face o functie de cautare
+
+void Manager_interface::sterge_skill_comanda(std::string titlu_job, std::string skill_de_sters){
+    for (auto& job : joburi){
+        if (job.get_titlu_job() == titlu_job){
+            std::vector<std::string> skill_uri = job.get_skill_uri();
+            for (auto it = skill_uri.begin(); it != skill_uri.end(); ++it){
+                if (*it == skill_de_sters){// din nou folosim un iterator pentru ca erase are nevoie de el
+                    skill_uri.erase(it); //stergem skill-ul folosing iteratorul din obiectul local
+                    job.set_skill_uri(skill_uri); //actualizam skill-urile obiectului de job folosind set-errul
+                    salveaza();
+                    std::cout << "Skill-ul a fost sters cu succes!\n";
+                    return; //dupa ce am sters skill-ul, iesim din functie,deoarece daca lasam sa mai itereze, am putea da de un segmentation fault
+                }
+            }
+            std::cerr << "Skill-ul '" << skill_de_sters << "' nu a fost gasit pentru acest job.\n";
+            return;
+
+        }
+
+    }
+    std::cerr << "Jobul cu titlul " << titlu_job << " nu a fost gasit.\n";
+}

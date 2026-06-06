@@ -46,12 +46,25 @@ int main(int argc, char* argv[]) {
     //manager.vizualizare_joburi_comanda();
     // manager.sterge_job_comanda("Data Scientist");
     // manager.vizualizare_joburi_comanda();
-    manager.adaugare_job_comanda("Software Engineer","Google",{"C++","C++","Mai mult C++"});
-    manager.modificare_job_comanda("Software Engineer", "companie", "Meta");
-    manager.modificare_job_comanda("Software Engineer", "titlu_job", "Senior Software Engineer");
-    manager.modificare_job_comanda("Software Engineer", "camp_inexistent", "valoare"); //testare camp invalid 
-    manager.modificare_job_comanda("Job Inexistent", "companie", "Meta"); //testare job inexistent
-    manager.modificare_job_comanda("Senior Software Engineer", "skill-uri", "C++,C++,mai mult C++ pentru ca e mai bine"); //testare modificare skill-uri
-    manager.vizualizare_joburi_comanda();
+
+
+    //verificat functia de modificare
+    // manager.adaugare_job_comanda("Software Engineer","Google",{"C++","C++","Mai mult C++"});
+    // manager.modificare_job_comanda("Software Engineer", "companie", "Meta");
+    // manager.modificare_job_comanda("Software Engineer", "titlu_job", "Senior Software Engineer");
+    // manager.modificare_job_comanda("Software Engineer", "camp_inexistent", "valoare"); //testare camp invalid 
+    // manager.modificare_job_comanda("Job Inexistent", "companie", "Meta"); //testare job inexistent
+    // manager.modificare_job_comanda("Senior Software Engineer", "skill-uri", "C++,C++,mai mult C++ pentru ca e mai bine"); //testare modificare skill-uri
+    // manager.vizualizare_joburi_comanda();
+
+
+    //testare functii de adaugare si stergere skill-uri
+    // manager.adaugare_job_comanda("Schema piramidala","Big Data",{"Escrocherie","Frauda","Incredere oarba"});
+    // manager.sterge_skill_comanda("Schema piramidala","Incredere oarba");
+    // manager.sterge_skill_comanda("Schema piramidala","Skill Inexistent"); //testare stergere skill inexistent
+    // manager.adauga_skill_comanda("Schema piramidala","Manipulare psihologica");
+
+
+    
     return 0;
 } //pentru a seta un milion de breakpoint-uri,folositi shift alt I dupa ce selectati mai multe linii

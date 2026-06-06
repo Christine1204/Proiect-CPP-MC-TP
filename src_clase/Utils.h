@@ -31,3 +31,21 @@ std::vector<std::string> split(const std::string& str, const char& delimiter){
     }
     return tokenuri;
 } //aceasta functie ia un string lung si un caracter delimitator si returneaza un vector de stringuri care sunt partile din care e format acel string lung original
+
+
+template <typename T>
+bool contine_element(const std::vector<T>& container, const T& element_cautat) {
+    for (const auto& element : container) {
+        if (element == element_cautat) {
+            return true;
+        }
+    }
+    return false;
+} //functie template care verifica daca un element se afla intr-un vector, folosind operatorul de egalitate pentru a compara elementele,
+// returnand true daca elementul e gasit si false daca nu e gasit
+
+//exemplu de folosire
+
+// if (contine_element(job.get_skill_uri(), std::string("C++"))) {
+//     Face ceva daca jobul cere C++
+// }
