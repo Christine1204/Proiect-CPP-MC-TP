@@ -19,6 +19,7 @@ Manager_interface::Manager_interface(){
 
     //foloseste functia de incarcat joburi pentru a popula array-ul de joburi a  clasei
     incarca_joburi(); 
+    incarca_aplicatii(); //la fel pentru aplicatii,aici se face si link-ul dintre joburi si aplicatii
 }
 
 
@@ -148,6 +149,47 @@ void Manager_interface::sterge_job_comanda(std::string titlu_job){
     }
 }
 
+void Manager_interface::incarca_aplicatii(){
+    if (!aplicatii_file.is_open()){
+        std::cerr << "Eroare: nu sa putut deschide aplicatii.txt pentru incarcare in incarca_aplicatii(), asigura-te ca fisierul exista\n";
+        return; //daca nu se poate deschide fisierul pentru incarcare, iesim din functie, afisand un mesaj de eroare
+    }
+    std::string linie;
+    while (std::getline(aplicatii_file, linie)){
+        if (linie.empty()) continue; //sarim peste liniile goale
+        //aici trebuie sa parsez liniile
+        //formatul e titlu job | companie | nume candidat | mesaj aplicatie
+        //voi folosi functia split pentru a sparge linia in parti, folosind ca delimitator " | " pentru a obtine titlu job, companie, nume candidat, si mesaj aplicatie
+        std::vector<std::string> parti = split(linie,'|');
+        if (parti.size() != 4){
+            std::cerr << "Eroare: format incorect in aplicatii.txt, linia: " << linie << "\n";
+            continue; //daca linia nu are exact 4 parti dupa impartire, inseamna ca formatul e incorect, deci o sarim, afisand un mesaj de eroare
+        }
+        std::string titlu_job = parti[0];
+        std::string companie = parti[1];
+        std::string nume_candidat = parti[2];
+        std::string mesaj_aplicare = parti[3];
+
+
+
+        auto app = std::make_shared<Aplicatie>(nume_candidat, mesaj_aplicare); //facem un obiect aplicatie 
+        aplicatii.push_back(app);  // managerul il tine in viata
+
+
+
+        bool gasit = false;
+        for (auto& job : joburi){
+            if (job.get_titlu_job() == titlu_job && job.get_companie() == companie){
+                job.link_aplicatie(app); // acelasi pointer, nu o copie
+                gasit = true;
+                break;
+            }
+        }        
+        if (!gasit){
+            std::cerr << "Eroare: jobul cu titlul " << titlu_job << " si compania " << companie << " nu a fost gasit pentru a lega aplicatia, linia: " << linie << "\n";
+        } //daca dupa ce am iterat prin toate joburile nu am gasit jobul cu titlul si compania respectiva, inseamna ca aplicatia nu poate fi legata de niciun job, deci afisam un mesaj de eroare
+    }
+}
 
 void Manager_interface::adauga_skill_comanda(std::string titlu_job, std::string skill_nou){
     for (auto& job : joburi){

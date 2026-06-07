@@ -32,10 +32,9 @@ int main(int argc, char* argv[]) {
     Manager_interface manager; //creez un obiect de tip manager
     
     //testare manager
-    manager.incarca_joburi(); //incarc joburile din fisier la pornirea aplicatiei, daca exista, daca nu, atunci ramane vectorul de joburi gol
     manager.vizualizare_joburi_comanda();
     //super,mere pana aici
-
+    
     //verificat functia de adaugare
     //manager.adaugare_job_comanda("Software Engineer","Google",{"C++","C++","Mai mult C++"});
     //manager.vizualizare_joburi_comanda();

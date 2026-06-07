@@ -14,7 +14,7 @@
 class Manager_interface {
     
     std::vector<Job> joburi; //vectorul de joburi pe care managerul il va gestiona
-    std::vector<Aplicatie> aplicatii; //vectorul de aplicatii, desigur intrun program real nu  las crea aici, pentru ca ar fi creat de cealalta aplicatie, dar pentru simplitate o sa las aici, si o sa fie creat in main, iar apoi adaugat in vectorul de aplicatii al managerului
+    std::vector<std::shared_ptr<Aplicatie>> aplicatii; //vectorul de aplicatii, desigur intrun program real nu  las crea aici, pentru ca ar fi creat de cealalta aplicatie, dar pentru simplitate o sa las aici, si o sa fie creat in main, iar apoi adaugat in vectorul de aplicatii al managerului
     std::fstream jobs_file; //fisierul in care se vor stoca joburile, pentru a putea fi incarcate la pornirea aplicatiei
     std::fstream aplicatii_file; //fisierul in care se vor stoca aplicatiile
     public:
@@ -26,6 +26,7 @@ class Manager_interface {
     ~Manager_interface();
 
     void incarca_joburi(); //functie care se va ocupa de incarcarea joburilor din fisier la !!!!STARTUP!!!!
+    void incarca_aplicatii(); //functie care se va ocupa de incarcarea aplicatiilor din fisier SI le va linka cu joburile respective, pentru a avea legatura dintre job si aplicatii
     void salveaza(); //functie care se va ocupa de salvarea joburilor in fisier, va fi apelata la finalul fiecarei comenzi care modifica joburile, pentru a salva modificarile
 
 
