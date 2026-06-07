@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
         */ //aceasta parte e testare a argumentelor de pe CLI
 
 
-    Manager_interface manager; //creez un obiect de tip manager
+    Manager_interface manager; //creez un obiect de tip manager, se va face loadingul la fisiere tot aici in constructor
     
     //testare manager
     manager.vizualizare_joburi_comanda();
@@ -63,7 +63,11 @@ int main(int argc, char* argv[]) {
     // manager.sterge_skill_comanda("Schema piramidala","Skill Inexistent"); //testare stergere skill inexistent
     // manager.adauga_skill_comanda("Schema piramidala","Manipulare psihologica");
 
+    //verificat functia de vizualizare candidati
 
+    // manager.vizualizare_candidati_comanda("Senior Software Engineer");
+    // manager.vizualizare_candidati_comanda("Casier");
+    // manager.vizualizare_candidati_comanda("Job inexistent");
     
     return 0;
 } //pentru a seta un milion de breakpoint-uri,folositi shift alt I dupa ce selectati mai multe linii

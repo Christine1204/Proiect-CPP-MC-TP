@@ -191,6 +191,50 @@ void Manager_interface::incarca_aplicatii(){
     }
 }
 
+
+void Manager_interface::vizualizare_candidati_comanda(std::string titlu_job){
+
+    //codul de mai jos e tot copy paste din functia de loading la fisier
+    if (!aplicatii_file.is_open()){
+        std::cerr << "Eroare: nu sa putut deschide aplicatii.txt pentru incarcare in incarca_aplicatii(), asigura-te ca fisierul exista\n";
+        return; //daca nu se poate deschide fisierul pentru incarcare, iesim din functie, afisand un mesaj de eroare
+    }
+
+
+    aplicatii_file.clear(); // sterge eofbit si orice alt flag de eroare
+    aplicatii_file.seekg(0); //aceasta functie pune pointerul de text inapoi la inceputul fisierului
+    bool gasit = false;
+    std::string linie;
+        while (std::getline(aplicatii_file, linie)){
+        if (linie.empty()) continue; //sarim peste liniile goale
+        //aici trebuie sa parsez liniile
+        //formatul e titlu job | companie | nume candidat | mesaj aplicatie
+        //voi folosi functia split pentru a sparge linia in parti, folosind ca delimitator " | " pentru a obtine titlu job, companie, nume candidat, si mesaj aplicatie
+        std::vector<std::string> parti = split(linie,'|');
+        if (parti.size() != 4){
+            std::cerr << "Eroare: format incorect in aplicatii.txt, linia: " << linie << "\n";
+            continue; //daca linia nu are exact 4 parti dupa impartire, inseamna ca formatul e incorect, deci o sarim, afisand un mesaj de eroare
+        }
+
+        std::string companie = parti[1];
+        std::string nume_candidat = parti[2];
+        std::string mesaj_aplicare = parti[3];
+
+
+        //std::cout << "DEBUG: '" << parti[0] << "' == '" << titlu_job << "' ?\n";
+
+
+        if (parti[0] == titlu_job){  // comparam cu parametrul functiei
+            std::cout << parti[2] << " | " << parti[3] << "\n"; //printam doar numele si mesajul
+            gasit = true;
+        }
+    }
+    if (!gasit){
+        std::cerr << "Nu s-au gasit aplicatii pentru job-ul respectiv\n";
+    }
+}
+
+
 void Manager_interface::adauga_skill_comanda(std::string titlu_job, std::string skill_nou){
     for (auto& job : joburi){
         if (job.get_titlu_job() == titlu_job){
