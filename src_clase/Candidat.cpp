@@ -23,7 +23,7 @@ std::string Candidat::adauga_aplicatie(const std::shared_ptr<Aplicatie>& aplicat
 
 std::string Candidat::retragere_aplicatie(std::string titlu_job) {
     for (auto ap = this->aplicatii.begin(); ap != this->aplicatii.end(); ++ap) {
-        if (strcmp(ap->get()->get_titlu_job().c_str(), titlu_job.c_str()) == 0) {
+        if (titlu_job.compare(ap->get()->get_titlu_job()) == 0) {
             this->aplicatii.erase(ap);
             break;
         }

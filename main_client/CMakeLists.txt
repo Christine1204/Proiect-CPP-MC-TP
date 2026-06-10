@@ -13,6 +13,7 @@ add_executable(Client client.cpp
         ../src_clase/Aplicatie.cpp
         ../src_clase/Candidat.cpp
         ../src_clase/Job.cpp
+        ../src_clase/Utils.h
         FileHandler.cpp
         FileHandler.h
         Util.cpp

@@ -7,7 +7,7 @@
 std::weak_ptr<Candidat> find_candidat_by_name(const std::vector<std::shared_ptr<Candidat>> &candidati,
     const std::string &name) {
     for (const auto& candidat : candidati) {
-        if (strcmp(name.c_str(), candidat.get()->get_nume_candidat().c_str()) == 0) {
+        if (name.compare(candidat.get()->get_nume_candidat()) == 0) {
             return candidat;
         }
     }
@@ -17,7 +17,7 @@ std::weak_ptr<Candidat> find_candidat_by_name(const std::vector<std::shared_ptr<
 
 std::weak_ptr<Job> find_job_by_name(const std::vector<std::shared_ptr<Job>> &joburi, const std::string &name) {
     for (const auto& job : joburi) {
-        if (strcmp(name.c_str(), job.get()->get_titlu_job().c_str()) == 0) {
+        if (name.compare(job.get()->get_titlu_job()) == 0) {
             return job;
         }
     }

@@ -3,16 +3,29 @@
 //
 
 #include "FileHandler.h"
+#include "../src_clase/Utils.h"
 
 #include <fstream>
 #include <iostream>
-#include <ranges>
+
 std::vector<std::shared_ptr<Job>> load_jobs_from_file() {
     std::vector<std::shared_ptr<Job>> jobs;
-    auto f = std::ifstream("joburi.txt");
+    std::ifstream f("joburi.txt");
 
-    if (!f) {
-        // TODO
+    if (f) {
+        while(!f.eof()) {
+            std::string line;
+            f.getline(line.data(), 255);
+
+            auto sp = split(line, '|');
+
+            std::string titlu_job = sp[0];
+            std::string companie = sp[1];
+            std::vector<std::string> skilluri = split(sp[2], ',');
+
+            auto job = std::make_shared<Job>(Job(titlu_job, companie, skilluri));
+            jobs.push_back(job);
+        }
     } else {
         std::cerr << "Fisierul joburi.txt nu a putut fi deschis" << std::endl;
     }
@@ -23,7 +36,7 @@ std::vector<std::shared_ptr<Job>> load_jobs_from_file() {
 
 void save_applications_to_file(const std::vector<std::shared_ptr<Candidat>>& candidati, const std::vector<std::shared_ptr<Job>>& joburi) {
     auto f = std::ofstream("aplicatii.txt");
-    if (!f) {
+    if (f) {
         for (auto candidat : candidati) {
             std::string nume = candidat->get_nume_candidat();
             for (auto aplicatie : candidat.get()->get_aplicatii()) {
@@ -37,27 +50,35 @@ void save_applications_to_file(const std::vector<std::shared_ptr<Candidat>>& can
 
 void load_applications_from_file(std::vector<std::shared_ptr<Candidat>>& candidati, const std::vector<std::shared_ptr<Job>>& joburi) {
     auto f = std::ifstream("aplicatii.txt");
-    if (!f) {
+    if (f) {
         while (!f.eof()) {
             std::string line;
-            f.getline(line.data(), '\n');
+            f.getline(line.data(), 255);
 
-            std::vector<std::string_view> split;
+            auto sp = split(line, '|');
 
-            for (auto tok : line | std::views::split('|')) {
-                std::string_view token(&*tok.begin(), std::ranges::distance(tok));
-                split.push_back(token);
-            }
-
-            std::string titlu_job = split[0].data();
-            std::string companie = split[1].data();
-            std::string nume_candidat = split[2].data();
-            std::string mesaj_aplicare = split[3].data();
+            std::string titlu_job = sp[0];
+            std::string companie = sp[1];
+            std::string nume_candidat = sp[2];
+            std::string mesaj_aplicare = sp[3];
 
             auto aplicatie = std::make_shared<Aplicatie>(Aplicatie(titlu_job, mesaj_aplicare));
-            find_candidat_by_name(candidati, nume_candidat).lock().get()->adauga_aplicatie(aplicatie);
-            find_job_by_name(joburi, companie).lock().get()->link_aplicatie(aplicatie);
+
+            auto candidatCoresp = find_candidat_by_name(candidati, nume_candidat);
+
+            // If there's no candidate object found, make a new one
+            if(!candidatCoresp.lock()) {
+                auto newCandidat = std::make_shared<Candidat>(Candidat(nume_candidat));
+                newCandidat.get()->adauga_aplicatie(aplicatie);
+                candidati.push_back(newCandidat);
+            } else {
+                candidatCoresp.lock().get()->adauga_aplicatie(aplicatie);
+            }
+
+            find_job_by_name(joburi, titlu_job).lock().get()->link_aplicatie(aplicatie);
         }
+    } else {
+        std::cerr << "Fisierul aplicatii.txt nu a putut fi deschis." << std::endl;
     }
     f.close();
 }

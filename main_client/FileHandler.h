@@ -13,7 +13,9 @@
 inline auto FILE_SEPARATOR = "|";
 
 std::vector<std::shared_ptr<Job>> load_jobs_from_file();
-std::vector<std::shared_ptr<Job>> load_applications_from_file();
+void save_applications_to_file();
+
+// Initialises candidati and binds applications to them and to joburi
 void load_applications_from_file(std::vector<std::shared_ptr<Candidat>>& candidati, const std::vector<std::shared_ptr<Job>>& joburi);
 
 #endif //CLIENT_FILEHANDLER_H

@@ -13,7 +13,7 @@
 std::vector<std::string> split(const std::string& str, const char& delimiter){
     std::vector<std::string> tokenuri;
     std::string token;
-    std::stringstream ss(str);
+    std::stringstream ss(str.data());
     
     while (std::getline(ss, token, delimiter)){ //cat timp mai avem ce citi
         

@@ -4,3 +4,4 @@ main_manager/build/
 CMakeCache.txt
 CMakeFiles/
 Makefile
+.cache
