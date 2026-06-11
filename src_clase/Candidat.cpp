@@ -25,7 +25,7 @@ std::string Candidat::retragere_aplicatie(std::string titlu_job) {
     for (auto ap = this->aplicatii.begin(); ap != this->aplicatii.end(); ++ap) {
         if (titlu_job.compare(ap->get()->get_titlu_job()) == 0) {
             this->aplicatii.erase(ap);
-            break;
+            return "";
         }
     }
 

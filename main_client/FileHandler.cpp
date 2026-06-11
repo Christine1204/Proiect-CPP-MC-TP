@@ -37,11 +37,18 @@ std::vector<std::shared_ptr<Job>> load_jobs_from_file() {
 void save_applications_to_file(const std::vector<std::shared_ptr<Candidat>>& candidati, const std::vector<std::shared_ptr<Job>>& joburi) {
     auto f = std::ofstream("aplicatii.txt");
     if (f) {
+        bool first = true; // Inseram endl inainte de toate liniile (mai putin prima) ca sa nu avem linie goala la final
         for (auto candidat : candidati) {
             std::string nume = candidat->get_nume_candidat();
             for (auto aplicatie : candidat.get()->get_aplicatii()) {
-                auto numeJob = find_job_by_name(joburi, nume);
-                f << aplicatie->get_titlu_job() << "|" << numeJob.lock()->get_titlu_job() << "|" << nume << "|" << aplicatie->get_mesaj_aplicare() << std::endl;
+                if(first) {
+                    first = false;
+                } else {
+                    f << std::endl;
+                }
+                auto numeJob = aplicatie.get()->get_titlu_job();
+                auto numeCompanie = find_job_by_name(joburi, numeJob).lock().get()->get_companie();
+                f << numeJob << " | " << numeCompanie << " | " << nume << " | " << aplicatie.get()->get_mesaj_aplicare();
             }
         }
     }

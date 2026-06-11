@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstring>
 #include <iostream>
 #include <memory>
@@ -44,7 +45,55 @@ void vizualizare_joburi(std::vector<std::shared_ptr<Job>> joburi) {
     vizualizare_joburi(joburi, "");
 }
 
-void parse_cli(int argc, char* argv[], std::vector<std::shared_ptr<Candidat>> candidati, std::vector<std::shared_ptr<Job>> joburi) {
+void aplicare(std::vector<std::shared_ptr<Candidat>>& candidati, std::vector<std::shared_ptr<Job>>& joburi, std::string titlu_job, std::string nume_candidat, std::string mesaj_aplicare) {
+    auto aplicatie = std::make_shared<Aplicatie>(Aplicatie(titlu_job, mesaj_aplicare));
+
+    auto jobCoresp = find_job_by_name(joburi, titlu_job);
+    if(jobCoresp.expired()) {
+        std::cerr << "Nu exista acest job!";
+        return;
+    }
+    jobCoresp.lock()->link_aplicatie(aplicatie);
+    
+    auto candidatCoresp = find_candidat_by_name(candidati, nume_candidat);
+    // If there's no candidate object found, make a new one
+    if(!candidatCoresp.lock()) {
+        auto newCandidat = std::make_shared<Candidat>(Candidat(nume_candidat));
+        newCandidat.get()->adauga_aplicatie(aplicatie);
+        candidati.push_back(newCandidat);
+    } else {
+        candidatCoresp.lock().get()->adauga_aplicatie(aplicatie);
+    }
+
+}
+
+void retragere_aplicatie(std::vector<std::shared_ptr<Candidat>>& candidati, std::vector<std::shared_ptr<Job>>& joburi, std::string titlu_job, std::string nume_candidat) {
+    auto candidat = find_candidat_by_name(candidati, nume_candidat);
+    if(candidat.expired()) {
+        std::cerr << "Acest candidat nu a fost gasit!";
+        return;
+    }
+    auto jobAplicatie = find_job_by_name(joburi, titlu_job).lock()->get_aplicatii();
+    auto aplicatii = candidat.lock().get()->get_aplicatii();
+
+    
+    auto mesajEroare = candidat.lock()->retragere_aplicatie(titlu_job);
+    bool ok = mesajEroare.compare("") == 0;
+
+
+    if(!ok) {
+        std::cerr << mesajEroare;
+    } else { // Stergem si referinta din joburi, care acum va fi expirata
+        for(auto ap = jobAplicatie.begin(); ap != jobAplicatie.end(); ap++) {
+            if((*ap).expired()) {
+                jobAplicatie.erase(ap);
+                break;
+            }
+        } 
+    }
+}
+
+void parse_cli(int argc, char* argv[], std::vector<std::shared_ptr<Candidat>>& candidati, std::vector<std::shared_ptr<Job>>& joburi) {
     switch (argc) {
         case 2:
             if (strcmp(argv[1], "vizualizare_joburi") == 0) {
@@ -60,12 +109,12 @@ void parse_cli(int argc, char* argv[], std::vector<std::shared_ptr<Candidat>> ca
             break;
         case 4:
             if (strcmp(argv[1], "retragere_aplicatie") == 0) {
-                return todo();
+                return retragere_aplicatie(candidati, joburi, argv[2], argv[3]);
             }
             break;
         case 5:
             if (strcmp(argv[1], "aplicare") == 0) {
-                return todo();
+                return aplicare(candidati, joburi, argv[2], argv[3], argv[4]);
             }
             break;
         default:
@@ -80,4 +129,6 @@ int main(int argc, char* argv[]) {
     load_applications_from_file(candidati, joburi);
 
     parse_cli(argc, argv, candidati, joburi);
+
+    save_applications_to_file(candidati, joburi);
 }
