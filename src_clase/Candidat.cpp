@@ -16,9 +16,13 @@ std::vector<std::shared_ptr<Aplicatie>> Candidat::get_aplicatii() {
 }
 
 std::string Candidat::adauga_aplicatie(const std::shared_ptr<Aplicatie>& aplicatie) {
+    for(auto aplicatii_deja : this->aplicatii) {
+        if(aplicatii_deja->get_titlu_job().compare(aplicatie->get_titlu_job()) == 0) {
+            return "Ati aplicat deja pentru acest job.";
+        }
+    }
     this->aplicatii.push_back(aplicatie);
-
-    return ""; // TODO: check if candidate has applied to this job already
+    return "";
 }
 
 std::string Candidat::retragere_aplicatie(std::string titlu_job) {
@@ -29,5 +33,5 @@ std::string Candidat::retragere_aplicatie(std::string titlu_job) {
         }
     }
 
-    return "Application not found.";
+    return "Applicatia nu a fost gasita.";
 }
