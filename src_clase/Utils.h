@@ -10,7 +10,7 @@
 #include <string>
 #include <sstream>
 
-std::vector<std::string> split(const std::string& str, const char& delimiter){
+inline std::vector<std::string> split(const std::string& str, const char& delimiter){ //e inline pentru ca e declarata in mai multe clase si are probleme cand e chemata din main
     std::vector<std::string> tokenuri;
     std::string token;
     std::stringstream ss(str.data());
@@ -30,8 +30,7 @@ std::vector<std::string> split(const std::string& str, const char& delimiter){
         tokenuri.push_back(token);
     }
     return tokenuri;
-} //aceasta functie ia un string lung si un caracter delimitator si returneaza un vector de stringuri care sunt partile din care e format acel string lung original
-
+} //aceasta functie ia un string lung si un caracter delimitator si returneaza un vector de stringuri care sunt partile din care e format acel string lung original-
 
 template <typename T>
 bool contine_element(const std::vector<T>& container, const T& element_cautat) {
@@ -49,3 +48,5 @@ bool contine_element(const std::vector<T>& container, const T& element_cautat) {
 // if (contine_element(job.get_skill_uri(), std::string("C++"))) {
 //     Face ceva daca jobul cere C++
 // }
+
+

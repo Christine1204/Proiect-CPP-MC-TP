@@ -12,4 +12,4 @@ add_executable(manager
         ../src_clase/Job.cpp
 
         ../src_clase/Manager_interface.cpp
-)
+) 
