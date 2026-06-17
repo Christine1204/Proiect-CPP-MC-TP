@@ -5,6 +5,7 @@
 
 #include "../src_clase/Candidat.h"
 #include "FileHandler.h"
+#include "Util.h"
 
 void vizualizare_joburi(std::vector<std::shared_ptr<Job>> joburi, std::string filtru) {
     // Pt a afisa eroare daca nu se gaseste niciun job
@@ -45,6 +46,21 @@ void vizualizare_joburi(std::vector<std::shared_ptr<Job>> joburi) {
     vizualizare_joburi(joburi, "");
 }
 
+void vizualizare_aplicatii_proprii(std::vector<std::shared_ptr<Candidat>>& candidati, std::string nume_candidat) {
+    auto candidat = find_candidat_by_name(candidati, nume_candidat);
+    if(candidat.expired()) {
+        std::cout << "Nu a fost gasita nicio aplicatie pentru acest candidat";
+        return;
+    }
+
+    std::cout << "Lista de aplicatii pentru " << nume_candidat << ":" << std::endl;
+
+    auto aplicatii = candidat.lock()->get_aplicatii(); // Aplicatii nu poate sa fie gol
+    for(auto aplicatie : aplicatii) {
+        std::cout << "Nume job: " << aplicatie->get_titlu_job() << std::endl << "Mesaj aplicare: " << aplicatie->get_mesaj_aplicare() << std::endl << std::endl; 
+    }
+}
+
 void aplicare(std::vector<std::shared_ptr<Candidat>>& candidati, std::vector<std::shared_ptr<Job>>& joburi, std::string titlu_job, std::string nume_candidat, std::string mesaj_aplicare) {
     auto aplicatie = std::make_shared<Aplicatie>(Aplicatie(titlu_job, mesaj_aplicare));
 
@@ -62,9 +78,13 @@ void aplicare(std::vector<std::shared_ptr<Candidat>>& candidati, std::vector<std
         newCandidat.get()->adauga_aplicatie(aplicatie);
         candidati.push_back(newCandidat);
     } else {
-        candidatCoresp.lock().get()->adauga_aplicatie(aplicatie);
+        std::string err_msg = candidatCoresp.lock().get()->adauga_aplicatie(aplicatie);
+        if(err_msg.compare("") != 0) {
+            std::cout << err_msg;
+            return;
+        }
     }
-
+    std::cout << "Aplicatie adaugata cu succes!";
 }
 
 void retragere_aplicatie(std::vector<std::shared_ptr<Candidat>>& candidati, std::vector<std::shared_ptr<Job>>& joburi, std::string titlu_job, std::string nume_candidat) {
@@ -90,6 +110,7 @@ void retragere_aplicatie(std::vector<std::shared_ptr<Candidat>>& candidati, std:
                 break;
             }
         } 
+        std::cout << "Aplicatie retrasa cu succes!";
     }
 }
 
@@ -104,7 +125,7 @@ void parse_cli(int argc, char* argv[], std::vector<std::shared_ptr<Candidat>>& c
             if (strcmp(argv[1], "vizualizare_joburi_filtrat") == 0) {
                 return vizualizare_joburi(joburi, argv[2]);
             } if (strcmp(argv[1], "vizualizare_aplicatii_proprii") == 0) {
-                return todo();
+                return vizualizare_aplicatii_proprii(candidati, argv[2]);
             }
             break;
         case 4:
