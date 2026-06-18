@@ -26,14 +26,7 @@ void vizualizare_joburi(std::vector<std::shared_ptr<Job>> joburi, std::string fi
         gasit = true;
 
         // Afisare job
-        std::cout << job->get_titlu_job() << std::endl
-            << "Compania: " << job->get_companie() << std::endl
-            << "Skill-uri: ";
-        for(int i = 0; i < job->get_skill_uri().size(); i++) {
-            std::cout << job->get_skill_uri()[i];
-            if(i < job->get_skill_uri().size() - 1) std::cout << ", ";
-        }
-        std::cout << std::endl << std::endl;
+        std::cout << *job;
     }
 
     if(!gasit) {

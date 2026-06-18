@@ -5,17 +5,19 @@
 #include "FileHandler.h"
 #include "../shared/classes/Utils.h"
 
+#include <cstring>
 #include <fstream>
 #include <iostream>
 
 std::vector<std::shared_ptr<Job>> load_jobs_from_file() {
     std::vector<std::shared_ptr<Job>> jobs;
-    std::ifstream f(JOBS_FILE_PATH);
+    std::ifstream f("shared/files/joburi.txt");
 
     if (f) {
         while(!f.eof()) {
             std::string line;
             f.getline(line.data(), 255);
+            if(strcmp(line.data(), "") == 0) continue;
 
             auto sp = split(line, '|');
 
@@ -61,6 +63,7 @@ void load_applications_from_file(std::vector<std::shared_ptr<Candidat>>& candida
         while (!f.eof()) {
             std::string line;
             f.getline(line.data(), 255);
+            if(strcmp(line.data(), "") == 0) continue;
 
             auto sp = split(line, '|');
 
