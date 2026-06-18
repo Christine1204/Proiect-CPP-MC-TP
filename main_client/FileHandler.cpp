@@ -3,14 +3,14 @@
 //
 
 #include "FileHandler.h"
-#include "../src_clase/Utils.h"
+#include "../shared/classes/Utils.h"
 
 #include <fstream>
 #include <iostream>
 
 std::vector<std::shared_ptr<Job>> load_jobs_from_file() {
     std::vector<std::shared_ptr<Job>> jobs;
-    std::ifstream f("joburi.txt");
+    std::ifstream f(JOBS_FILE_PATH);
 
     if (f) {
         while(!f.eof()) {
@@ -35,7 +35,7 @@ std::vector<std::shared_ptr<Job>> load_jobs_from_file() {
 }
 
 void save_applications_to_file(const std::vector<std::shared_ptr<Candidat>>& candidati, const std::vector<std::shared_ptr<Job>>& joburi) {
-    auto f = std::ofstream("aplicatii.txt");
+    auto f = std::ofstream(APPLICATIONS_FILE_PATH);
     if (f) {
         bool first = true; // Inseram endl inainte de toate liniile (mai putin prima) ca sa nu avem linie goala la final
         for (auto candidat : candidati) {
@@ -56,7 +56,7 @@ void save_applications_to_file(const std::vector<std::shared_ptr<Candidat>>& can
 }
 
 void load_applications_from_file(std::vector<std::shared_ptr<Candidat>>& candidati, const std::vector<std::shared_ptr<Job>>& joburi) {
-    auto f = std::ifstream("aplicatii.txt");
+    auto f = std::ifstream(APPLICATIONS_FILE_PATH);
     if (f) {
         while (!f.eof()) {
             std::string line;

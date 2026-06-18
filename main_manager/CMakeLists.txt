@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 4.2)
 project(manager)
 
-include_directories(../src_clase)
+include_directories(../shared/classes)
 
 add_executable(manager
         manager.cpp
-        ../src_clase/Aplicatie.cpp
+        ../shared/classes/Aplicatie.cpp
 
-        ../src_clase/Candidat.cpp
+        ../shared/classes/Candidat.cpp
 
-        ../src_clase/Job.cpp
+        ../shared/classes/Job.cpp
 
-        ../src_clase/Manager_interface.cpp
+        ../shared/classes/Manager_interface.cpp
 ) 

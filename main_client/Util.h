@@ -9,8 +9,8 @@
 #include <iostream>
 #include <memory>
 
-#include "../src_clase/Candidat.h"
-#include "../src_clase/Job.h"
+#include "../shared/classes/Candidat.h"
+#include "../shared/classes/Job.h"
 
 // Return pointer to matching object, otherwise returns empty pointer std::weak_ptr<T>()
 std::weak_ptr<Candidat> find_candidat_by_name(const std::vector<std::shared_ptr<Candidat>>& candidati, const std::string& name);

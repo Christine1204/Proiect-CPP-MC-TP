@@ -10,10 +10,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Create executable from main.cpp
 add_executable(client client.cpp
-        ../src_clase/Aplicatie.cpp
-        ../src_clase/Candidat.cpp
-        ../src_clase/Job.cpp
-        ../src_clase/Utils.h
+        ../shared/classes/Aplicatie.cpp
+        ../shared/classes/Candidat.cpp
+        ../shared/classes/Job.cpp
+        ../shared/classes/Utils.h
         FileHandler.cpp
         FileHandler.h
         Util.cpp

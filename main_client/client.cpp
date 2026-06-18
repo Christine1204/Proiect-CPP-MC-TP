@@ -1,9 +1,8 @@
-#include <algorithm>
 #include <cstring>
 #include <iostream>
 #include <memory>
 
-#include "../src_clase/Candidat.h"
+#include "../shared/classes/Candidat.h"
 #include "FileHandler.h"
 #include "Util.h"
 

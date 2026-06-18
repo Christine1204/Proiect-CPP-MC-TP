@@ -7,8 +7,8 @@
 
 
 Manager_interface::Manager_interface(){
-    jobs_file.open("joburi.txt", std::ios::in | std::ios::out);
-    aplicatii_file.open("aplicatii.txt", std::ios::in | std::ios::out); //deschide fisierele txt
+    jobs_file.open("shared/files/joburi.txt", std::ios::in | std::ios::out);
+    aplicatii_file.open("shared/files/aplicatii.txt", std::ios::in | std::ios::out); //deschide fisierele txt
 
     if (!jobs_file.is_open()) {
         std::cerr << "Eroare: nu s-a putut deschide joburi.txt,constructor, asigura-te ca fisierul exista\n";
@@ -39,7 +39,7 @@ void Manager_interface::salveaza(){
 
     
     jobs_file.close(); // inchidem ultima sesiune de fisier pentru a putea deschide in mod de out si trunc, pentru a rescrie tot
-    jobs_file.open("joburi.txt", std::ios::out | std::ios::trunc); //deschidem cu out si trunc, ceea ce sterge tot continutul din fisier
+    jobs_file.open("shared/files/joburi.txt", std::ios::out | std::ios::trunc); //deschidem cu out si trunc, ceea ce sterge tot continutul din fisier
     
     if (!jobs_file.is_open()){
         std::cerr << "Eroare: nu s-a putut deschide joburi.txt pentru salvare,functia salveaza\n";
