@@ -4,8 +4,6 @@ Acest modul reprezinta interfata de administrare a platformei de joburi. Permite
 
 Autor: Cristian Meriacri
 
-Sistem de Operare: CachyOS (Arch Linux)
-
 ## Detalii Tehnice
 
 - CLase: Logica impartita in clasele Job, Aplicatie si Manager_interface.
@@ -38,21 +36,15 @@ Stergere skill de la un job:
 ./manager.exe sterge_skill "<Titlu Job>" "<Skill Vechi>"
 ```
 Stergere job din sistem:
-
 ```
 ./manager.exe stergere_job "<Titlu Job>"
 ```
 
 Vizualizare candidati pentru un job specific:
-
 ```
 ./manager.exe vizualizare_candidati "<Titlu Job>"
 ```
 
-## Persistenta datelor:
-
-- joburi.txt detine toate joburile in format titlu_job | companie | skill1,skill2,skill3 ...
-- aplicatii.txt detine toate aplicatiile in format titlu_job | companie | nume candidat | mesaj
 
 ## Arhitectura si Relatii intre Clase (UML)
 
